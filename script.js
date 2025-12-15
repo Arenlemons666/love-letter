@@ -29,13 +29,18 @@ let opened = false;
 let finished = false;
 
 function render(){
+  if (!pageImg) return;
+
   pageImg.src = pages[index];
   pageImg.alt = `Letter page ${index + 1}`;
-  pageIndicator.textContent = `${index + 1} / ${pages.length}`;
 
-  backBtn.disabled = index === 0 || finished;
-  nextBtn.disabled = index === pages.length - 1 || finished;
-  restartBtn.hidden = true; // you asked not to change anything else: keep it hidden always now
+  // These may be hidden by CSS, but keep safe updates
+  if (pageIndicator) pageIndicator.textContent = `${index + 1} / ${pages.length}`;
+
+  if (backBtn) backBtn.disabled = index === 0 || finished;
+  if (nextBtn) nextBtn.disabled = index === pages.length - 1 || finished;
+
+  if (restartBtn) restartBtn.hidden = true;
 }
 
 function play(audio){
@@ -60,7 +65,7 @@ async function tryAutoplay(){
 
 function enableMusic(){
   if (audioGate) audioGate.hidden = true;
-  bgMusic.play().catch(()=>{});
+  if (bgMusic) bgMusic.play().catch(()=>{});
 }
 
 function enableMusicKey(e){
@@ -71,7 +76,7 @@ function openEnvelope(){
   if(opened || finished) return;
   opened = true;
   envelope.classList.add("is-open");
-  document.body.classList.add("letter-open"); // ✅ NEW
+  document.body.classList.add("letter-open");
   play(sfxOpen);
 }
 
@@ -81,7 +86,7 @@ function finale(){
 
   // Close the envelope
   envelope.classList.remove("is-open");
-  document.body.classList.remove("letter-open"); // ✅ AQUÍ EXACTAMENTE
+  document.body.classList.remove("letter-open");
   play(sfxClick);
 
   // After it closes, show "Te amo"
@@ -92,9 +97,9 @@ function finale(){
     }
   }, 700);
 
-  // Lock navigation
-  backBtn.disabled = true;
-  nextBtn.disabled = true;
+  // Lock navigation (safe if buttons exist)
+  if (backBtn) backBtn.disabled = true;
+  if (nextBtn) nextBtn.disabled = true;
 }
 
 function nextPage(){
@@ -106,10 +111,10 @@ function nextPage(){
     render();
   }
 }
-}
 
 function prevPage(){
   if (!opened || finished) return;
+
   if(index > 0){
     index--;
     play(sfxFlip);
@@ -117,25 +122,29 @@ function prevPage(){
   }
 }
 
-envelopeBtn.onclick = () => openEnvelope();
+// Open envelope
+if (envelopeBtn) envelopeBtn.onclick = () => openEnvelope();
 
-pageImg.onclick = () => {
-  if (!opened || finished) return;
+// Click page to advance; click on page 5 triggers finale
+if (pageImg) {
+  pageImg.onclick = () => {
+    if (!opened || finished) return;
 
-  // If we are on the last page, clicking triggers the finale
-  if (index === pages.length - 1) {
-    finale();
-    return;
-  }
+    if (index === pages.length - 1) {
+      finale();
+      return;
+    }
+    nextPage();
+  };
+}
 
-  // Otherwise go to next page
-  nextPage();
-};
-
+// Optional keyboard support (doesn't change UI)
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !opened) openEnvelope();
+  if (e.key === "ArrowRight") nextPage();
+  if (e.key === "ArrowLeft") prevPage();
+});
 
 // Init
 render();
 tryAutoplay();
-
-
-

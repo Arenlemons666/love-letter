@@ -104,12 +104,8 @@ function nextPage(){
     index++;
     play(sfxFlip);
     render();
-
-    // If we just arrived at the last page, auto-finale after a short moment
-    if (index === pages.length - 1) {
-      setTimeout(finale, 900);
-    }
   }
+}
 }
 
 function prevPage(){
@@ -124,21 +120,22 @@ function prevPage(){
 envelopeBtn.onclick = () => openEnvelope();
 
 pageImg.onclick = () => {
-  // click image turns page; if already last, do nothing
-  if (index < pages.length - 1) nextPage();
+  if (!opened || finished) return;
+
+  // If we are on the last page, clicking triggers the finale
+  if (index === pages.length - 1) {
+    finale();
+    return;
+  }
+
+  // Otherwise go to next page
+  nextPage();
 };
 
-nextBtn.onclick = () => nextPage();
-backBtn.onclick = () => prevPage();
-
-window.onkeydown = (e) => {
-  if(e.key === "Enter" && !opened) openEnvelope();
-  if(e.key === "ArrowRight") nextPage();
-  if(e.key === "ArrowLeft") prevPage();
-};
 
 // Init
 render();
 tryAutoplay();
+
 
 

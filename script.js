@@ -109,4 +109,3 @@ window.onkeydown = e => {
 
 render();
 tryAutoplay();
-

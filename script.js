@@ -81,6 +81,7 @@ function finale(){
 
   // Close the envelope
   envelope.classList.remove("is-open");
+  document.body.classList.remove("letter-open"); // ✅ AQUÍ EXACTAMENTE
   play(sfxClick);
 
   // After it closes, show "Te amo"
@@ -139,4 +140,5 @@ window.onkeydown = (e) => {
 // Init
 render();
 tryAutoplay();
+
 

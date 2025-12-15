@@ -456,6 +456,17 @@ body.letter-open .hint{
   z-index: 1;
 }
 
+/* Hide the outside UI when the letter is open (prevents overlay) */
+body.letter-open #hint{
+  display: none !important;
+}
+
+/* If any stray controls render outside, hide them too */
+body.letter-open .card > .controls,
+body.letter-open .card .controls.outside-controls{
+  display: none !important;
+}
+
 
 
 

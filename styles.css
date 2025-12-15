@@ -1,7 +1,9 @@
 :root{
-  --pink1:#FCE2EC;
-  --pink2:#F7DAE7;
-  --pink3:#EFB7C9;
+  --pinkA:#FFE0EA;
+  --pinkB:#F7B7CF;
+  --pinkC:#E98FB3;
+  --pinkD:#D96A95;
+
   --butter:#FFF1C7;
   --cream:#FFF6E8;
 
@@ -31,12 +33,13 @@ html,body{ height:100%; margin:0; }
 body{
   color: var(--ink);
   background:
-    radial-gradient(900px 520px at 25% 8%, var(--pink2), transparent 62%),
-    radial-gradient(900px 520px at 80% 18%, var(--butter), transparent 58%),
-    radial-gradient(1000px 700px at 55% 95%, var(--pink3), transparent 62%),
-    var(--pink1);
+    radial-gradient(1100px 650px at 25% 10%, var(--pinkA), transparent 60%),
+    radial-gradient(900px 520px at 78% 20%, var(--butter), transparent 58%),
+    radial-gradient(1100px 750px at 55% 95%, var(--pinkB), transparent 62%),
+    linear-gradient(180deg, var(--pinkA), var(--cream));
 }
 
+/* Autoplay blocked banner */
 .audio-gate{
   position: fixed;
   top: 16px;
@@ -76,9 +79,8 @@ body{
 
 .title{
   margin:0;
-  font-size: clamp(26px, 3vw, 38px);
+  font-size: clamp(30px, 3.2vw, 42px);
   letter-spacing:.4px;
-  color: rgba(0,0,0,.90);
 }
 
 .hint{
@@ -95,12 +97,14 @@ body{
   padding: 8px 0 0;
 }
 
+/* BIG + BOLD */
 .envelope-caption{
-  font-size: clamp(22px, 2.8vw, 34px);
+  font-size: clamp(26px, 3.2vw, 40px);
   color: var(--ruby);
+  font-weight: 900;
   letter-spacing: .2px;
   text-align:center;
-  font-weight: 700;
+  text-shadow: 0 2px 0 rgba(255,255,255,.6);
 }
 
 .envelope-btn{
@@ -113,27 +117,27 @@ body{
 
 .envelope{
   position:relative;
-  width:min(580px,94vw);
+  width:min(600px,94vw);
   aspect-ratio:4/2.6;
   perspective:1200px;
-  overflow: visible;
+  overflow: visible; /* don't crop the letter */
 }
 
-/* prettier back */
+/* PRETTIER ENVELOPE BACK */
 .env-back{
   position:absolute;
   inset:0;
   border-radius:22px;
   background:
-    radial-gradient(900px 460px at 30% 20%, rgba(252,226,236,.85), transparent 62%),
-    radial-gradient(800px 460px at 80% 70%, rgba(239,183,201,.75), transparent 60%),
+    radial-gradient(950px 520px at 25% 15%, rgba(255,255,255,.60), transparent 60%),
+    radial-gradient(800px 520px at 80% 75%, rgba(247,183,207,.65), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,.15)),
     var(--paper);
   border:3px solid rgba(0,0,0,.85);
   box-shadow: var(--shadow-soft);
 }
 
-/* front (triangles) */
+/* front triangles */
 .env-front{
   position:absolute;
   inset:0;
@@ -147,10 +151,8 @@ body{
   content:"";
   position:absolute;
   inset:0;
-  background:
-    linear-gradient(145deg, rgba(255,255,255,.0), rgba(255,255,255,.25)),
-    var(--grain);
-  opacity:.35;
+  background: var(--grain);
+  opacity:.28;
 }
 
 .env-front::after{
@@ -161,7 +163,9 @@ body{
   width: 125%;
   height: 125%;
   transform: translate(-50%, -50%) rotate(45deg);
-  background: linear-gradient(180deg, rgba(255,255,255,.30), rgba(255,255,255,.06));
+  background:
+    radial-gradient(600px 240px at 45% 20%, rgba(255,255,255,.35), transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,.30), rgba(255,255,255,.06));
   border-top: 3px solid rgba(0,0,0,.85);
   border-left: 3px solid rgba(0,0,0,.85);
   opacity:.95;
@@ -181,8 +185,8 @@ body{
   border:3px solid rgba(0,0,0,.85);
   border-bottom:0;
   background:
-    radial-gradient(700px 320px at 50% 18%, rgba(165,81,102,.30), transparent 62%),
-    radial-gradient(700px 320px at 50% 10%, rgba(239,183,201,.85), transparent 62%),
+    radial-gradient(900px 380px at 50% 20%, rgba(233,143,179,.80), transparent 62%),
+    radial-gradient(700px 320px at 30% 25%, rgba(255,255,255,.35), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,255,255,.05)),
     var(--grain);
   clip-path: polygon(0 0, 100% 0, 50% 100%);
@@ -198,49 +202,50 @@ body{
   transform: translate(-50%, -50%);
   font-size: clamp(14px, 1.8vw, 18px);
   color: rgba(0,0,0,.88);
-  background: rgba(255,255,255,.70);
+  background: rgba(255,255,255,.78);
   border: 2px solid rgba(0,0,0,.55);
   padding: 6px 12px;
   border-radius: 999px;
-  font-weight: 700;
+  font-weight: 800;
 }
 
-/* tap text ON the envelope */
+/* Tap text ON the envelope */
 .env-tag{
   position:absolute;
   left: 50%;
-  bottom: 16px;
+  bottom: 14px;
   transform: translateX(-50%);
   z-index: 6;
   font-size: clamp(14px, 1.8vw, 18px);
   color: rgba(0,0,0,.82);
-  background: rgba(255,255,255,.55);
+  background: rgba(255,255,255,.62);
   border: 2px dashed rgba(0,0,0,.55);
   padding: 6px 12px;
   border-radius: 999px;
 }
 
-/* cute seal */
+/* Seal */
 .seal{
   position:absolute;
   left: 50%;
   top: 58%;
   transform: translate(-50%, -50%);
   z-index: 6;
-  width: 52px;
-  height: 52px;
+  width: 54px;
+  height: 54px;
   border-radius: 999px;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.45), rgba(255,255,255,0) 40%),
-              linear-gradient(180deg, rgba(213,137,157,.95), rgba(165,81,102,.95));
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,.45), rgba(255,255,255,0) 40%),
+    linear-gradient(180deg, var(--pinkD), var(--ruby));
   border: 3px solid rgba(0,0,0,.85);
   display:grid;
   place-items:center;
   color: rgba(255,255,255,.92);
   font-size: 22px;
-  text-shadow: 0 2px 0 rgba(0,0,0,.15);
+  box-shadow: 0 10px 18px rgba(0,0,0,.10);
 }
 
-/* letter */
+/* LETTER */
 .letter{
   position:absolute;
   left:50%;
@@ -282,7 +287,7 @@ body{
   height: 10px;
   border-radius: 999px;
   border: 2px solid rgba(0,0,0,.85);
-  background: var(--pink2);
+  background: var(--pinkA);
 }
 
 .page-frame{
@@ -291,8 +296,8 @@ body{
   border:2px solid rgba(0,0,0,.20);
   border-radius:14px;
   background:
-    radial-gradient(600px 240px at 50% 10%, rgba(247,218,231,.55), transparent 60%),
-    linear-gradient(180deg, rgba(255,255,255,.70), rgba(255,255,255,.55));
+    radial-gradient(600px 240px at 50% 10%, rgba(255,224,234,.70), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.55));
   overflow:hidden;
   display:grid;
   place-items:center;
@@ -314,15 +319,15 @@ body{
 }
 
 .nav-btn{
-  background: var(--pink2);
+  background: rgba(255,224,234,.95);
   border:2px solid rgba(0,0,0,.75);
   border-radius:999px;
   padding:10px 16px;
-  font-weight: 700;
+  font-weight: 800;
   cursor:pointer;
 }
 
-.nav-btn:hover{ background: var(--pink3); }
+.nav-btn:hover{ background: rgba(247,183,207,.95); }
 
 .nav-btn:disabled{
   opacity:.45;
@@ -330,7 +335,7 @@ body{
 }
 
 .indicator{
-  font-weight: 800;
+  font-weight: 900;
   opacity:.85;
 }
 
@@ -340,7 +345,7 @@ body{
   border:2px solid rgba(0,0,0,.75);
   border-radius:999px;
   padding:10px 16px;
-  font-weight: 800;
+  font-weight: 900;
   cursor:pointer;
 }
 
@@ -359,19 +364,19 @@ body{
   z-index: 0;
 }
 
-/* open state */
+/* OPEN STATE */
 .envelope.is-open .env-flap{
   transform: rotateX(170deg);
 }
 
-/* IMPORTANT: pull it out, but not too high */
+/* KEY FIX: letter stays CENTERED (not flying upward) */
 .envelope.is-open .letter{
   opacity:1;
-  transform: translateX(-50%) translateY(-68%) scale(1);
+  transform: translateX(-50%) translateY(-32%) scale(1);
   pointer-events:auto;
 }
 
-/* when open, seal fades slightly (cute effect) */
+/* Seal soft fade when open */
 .envelope.is-open .seal{
   opacity: .35;
   transform: translate(-50%, -50%) scale(.95);

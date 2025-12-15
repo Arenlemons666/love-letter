@@ -88,6 +88,9 @@ body{
   opacity:.75;
   font-size: 14px;
   text-align:center;
+
+  position: relative; /* ✅ */
+  z-index: 1;         /* ✅ */
 }
 
 .envelope-wrap{
@@ -305,8 +308,6 @@ body{
 .page-frame{
   flex: 1;
   min-height: 0;
-
-  /* ✅ Give the page a reliable visible window */
   height: clamp(420px, 62vh, 720px);
 
   border:2px solid rgba(0,0,0,.20);
@@ -315,10 +316,13 @@ body{
     radial-gradient(600px 240px at 50% 10%, rgba(255,224,234,.70), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.55));
 
-  overflow: hidden;          /* keep rounded corners clean */
+  overflow: hidden;
   display: grid;
   place-items: center;
+
+  margin-bottom: 14px; /* ✅ NUEVO */
 }
+
 
 .page-img{
   /* ✅ Always show the full image inside the frame */
@@ -337,7 +341,12 @@ body{
   justify-content:space-between;
   align-items:center;
   gap: 10px;
+
+  margin-top: 6px;     /* 👈 separa botones de la página */
+  position: relative;
+  z-index: 2;          /* 👈 nunca encima de la imagen */
 }
+
 
 .nav-btn{
   background: rgba(255,224,234,.95);
@@ -427,6 +436,7 @@ body{
   .nav-btn{ padding: 9px 12px; font-size: 14px; }
   .seal{ width: 46px; height: 46px; font-size: 20px; }
 }
+
 
 
 

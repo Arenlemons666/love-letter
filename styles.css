@@ -331,13 +331,14 @@ body{
 
 .page-img{
   width: 100%;
-  height: 100%;
+  height: auto;                 /* ✅ no estirar vertical */
+  max-height: calc(100% - 18px);/* ✅ deja espacio abajo, evita el corte */
   object-fit: contain;
 
-  /* ✅ remove image padding (we moved it to the frame) */
-  padding: 0;
   display: block;
+  padding: 0;
 }
+
 
 
 
@@ -454,6 +455,7 @@ body.letter-open .hint{
 .indicator{
   display: none !important;
 }
+
 
 
 

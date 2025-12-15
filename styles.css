@@ -260,12 +260,15 @@ body{
 }
 
 /* LETTER (key: make it big enough so pages never cut) */
-.letter{
+..letter{
   position:absolute;
   left:50%;
   top:50%;
   width: 92%;
-  height: auto;
+
+  /* ✅ important: stable height so the page can fit */
+  height: clamp(620px, 86vh, 980px);
+
   transform: translate(-50%, 58%) scale(.98);
   opacity:0;
   transition:
@@ -274,6 +277,7 @@ body{
   pointer-events:none;
   z-index: 7;
 }
+
 
 
 .letter-inner{
@@ -309,7 +313,11 @@ body{
 }
 
 .page-frame{
-  min-height: 0;              /* ✅ allows the 1fr row to shrink properly */
+  min-height: 0;
+
+  /* ✅ give the page area a guaranteed height inside the letter */
+  height: 100%;
+
   border:2px solid rgba(0,0,0,.20);
   border-radius:14px;
   background:
@@ -318,7 +326,10 @@ body{
   overflow: hidden;
   display: grid;
   place-items: center;
+
+  margin-bottom: 12px; /* ✅ keeps controls away */
 }
+
 
 
 
@@ -470,6 +481,11 @@ body.letter-open .card .controls.outside-controls{
   height: clamp(560px, 82vh, 900px);
 }
 
+
+/* Hide page numbers (1/5 etc) */
+.indicator{
+  display: none !important;
+}
 
 
 

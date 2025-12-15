@@ -194,7 +194,7 @@ body{
   z-index: 4;
 }
 .env-flap::after{
-  content:"Click to open";
+  content:"";
   position:absolute;
   left: 50%;
   top: 38%;
@@ -277,7 +277,7 @@ body{
 
 
 .letter-inner{
-  height:100%;
+  height: 100%;
   background:
     linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.70)),
     var(--paper);
@@ -285,10 +285,13 @@ body{
   border:3px solid rgba(0,0,0,.85);
   padding:14px;
   box-shadow: var(--shadow-soft);
-  display:flex;
-  flex-direction:column;
+
+  /* ✅ FIX: lock layout so controls never overlap the page */
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   gap: 12px;
 }
+
 
 .letter-header{
   display:flex;
@@ -306,30 +309,23 @@ body{
 }
 
 .page-frame{
-  flex: 1;
-  min-height: 0;
-  height: clamp(420px, 62vh, 720px);
-
+  min-height: 0;              /* ✅ allows the 1fr row to shrink properly */
   border:2px solid rgba(0,0,0,.20);
   border-radius:14px;
   background:
     radial-gradient(600px 240px at 50% 10%, rgba(255,224,234,.70), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.55));
-
   overflow: hidden;
   display: grid;
   place-items: center;
-
-  margin-bottom: 14px; /* ✅ NUEVO */
 }
 
 
+
 .page-img{
-  /* ✅ Always show the full image inside the frame */
   width: 100%;
   height: 100%;
   object-fit: contain;
-
   padding: 10px;
   display: block;
   cursor: pointer;
@@ -468,6 +464,11 @@ body.letter-open .card .controls.outside-controls{
 }
 
 
+
+/* ✅ FIX: give the whole letter a stable height so page + controls fit */
+.letter{
+  height: clamp(560px, 82vh, 900px);
+}
 
 
 

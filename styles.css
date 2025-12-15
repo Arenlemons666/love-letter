@@ -264,7 +264,11 @@ body{
   left:50%;
   top:50%;
   width: 92%;
-  height: clamp(620px, 86vh, 980px);
+
+  /* ✅ esto garantiza espacio suficiente para página completa */
+  height: 92vh;
+  max-height: 980px;
+
   transform: translate(-50%, 58%) scale(.98);
   opacity:0;
   transition:
@@ -273,6 +277,7 @@ body{
   pointer-events:none;
   z-index: 50;
 }
+
 
 .letter-inner{
   height: 100%;
@@ -305,26 +310,33 @@ body{
 
 .page-frame{
   min-height: 0;
+
+  /* ✅ ocupa todo el alto disponible de la carta */
   height: 100%;
+
   border:2px solid rgba(0,0,0,.20);
   border-radius:14px;
   background:
     radial-gradient(600px 240px at 50% 10%, rgba(255,224,234,.70), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.55));
+
   overflow: hidden;
   display: grid;
   place-items: center;
-  margin-bottom: 12px;
 }
+
 
 .page-img{
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 10px;
-  display: block;
-  cursor: pointer;
+
+  /* ✅ baja el padding para que no se coma parte de la carta */
+  padding: 4px;
+
+  display:block;
 }
+
 
 .controls{
   display:flex;
@@ -439,3 +451,4 @@ body.letter-open .hint{
 .indicator{
   display: none !important;
 }
+

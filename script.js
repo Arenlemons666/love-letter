@@ -1,5 +1,6 @@
 const envelope = document.getElementById("envelope");
 const envelopeBtn = document.getElementById("envelopeBtn");
+
 const pageImg = document.getElementById("pageImg");
 const pageIndicator = document.getElementById("pageIndicator");
 const nextBtn = document.getElementById("nextBtn");
@@ -26,31 +27,41 @@ let opened = false;
 
 function render(){
   pageImg.src = pages[index];
-  pageIndicator.textContent = `${index+1} / ${pages.length}`;
+  pageImg.alt = `Letter page ${index + 1}`;
+  pageIndicator.textContent = `${index + 1} / ${pages.length}`;
+
   backBtn.disabled = index === 0;
-  nextBtn.disabled = index === pages.length-1;
-  restartBtn.hidden = index !== pages.length-1;
+  nextBtn.disabled = index === pages.length - 1;
+  restartBtn.hidden = index !== pages.length - 1;
 }
 
 function play(audio){
   if(!audio) return;
-  audio.currentTime = 0;
-  audio.play().catch(()=>{});
+  try{
+    audio.currentTime = 0;
+    audio.play().catch(()=>{});
+  }catch(_){}
 }
 
 async function tryAutoplay(){
+  if(!bgMusic) return;
   try{
     bgMusic.volume = 0.4;
     await bgMusic.play();
   }catch{
-    audioGate.hidden = false;
+    if (audioGate) audioGate.hidden = false;
     window.addEventListener("pointerdown", enableMusic, { once:true });
+    window.addEventListener("keydown", enableMusicKey, { once:true });
   }
 }
 
 function enableMusic(){
-  audioGate.hidden = true;
+  if (audioGate) audioGate.hidden = true;
   bgMusic.play().catch(()=>{});
+}
+
+function enableMusicKey(e){
+  if (e.key === "Enter" || e.key === " ") enableMusic();
 }
 
 envelopeBtn.onclick = () => {
@@ -61,20 +72,24 @@ envelopeBtn.onclick = () => {
 };
 
 pageImg.onclick = () => {
-  if(index < pages.length-1){
+  if(index < pages.length - 1){
     index++;
     play(sfxFlip);
     render();
+  }else{
+    play(sfxClick);
   }
 };
 
 nextBtn.onclick = () => {
+  if (index >= pages.length - 1) return;
   index++;
   play(sfxFlip);
   render();
 };
 
 backBtn.onclick = () => {
+  if (index <= 0) return;
   index--;
   play(sfxFlip);
   render();
@@ -87,9 +102,9 @@ restartBtn.onclick = () => {
 };
 
 window.onkeydown = e => {
-  if(e.key==="Enter" && !opened) envelopeBtn.click();
-  if(e.key==="ArrowRight") nextBtn.click();
-  if(e.key==="ArrowLeft") backBtn.click();
+  if(e.key === "Enter" && !opened) envelopeBtn.click();
+  if(e.key === "ArrowRight") nextBtn.click();
+  if(e.key === "ArrowLeft") backBtn.click();
 };
 
 render();

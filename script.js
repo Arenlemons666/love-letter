@@ -1,173 +1,97 @@
-const envelopeBtn = document.getElementById("envelopeBtn");
 const envelope = document.getElementById("envelope");
-const letter = document.getElementById("letter");
-
+const envelopeBtn = document.getElementById("envelopeBtn");
 const pageImg = document.getElementById("pageImg");
 const pageIndicator = document.getElementById("pageIndicator");
-const backBtn = document.getElementById("backBtn");
 const nextBtn = document.getElementById("nextBtn");
+const backBtn = document.getElementById("backBtn");
 const restartBtn = document.getElementById("restartBtn");
+
+const bgMusic = document.getElementById("bgMusic");
+const audioGate = document.getElementById("audioGate");
 
 const sfxOpen = document.getElementById("sfxOpen");
 const sfxFlip = document.getElementById("sfxFlip");
 const sfxClick = document.getElementById("sfxClick");
 
-const bgMusic = document.getElementById("bgMusic");
-const audioGate = document.getElementById("audioGate");
-
-// Pages are directly inside /assets/ with spaces in filenames
 const pages = [
-  { src: "assets/page 1.jpg", alt: "Letter page 1" },
-  { src: "assets/page 2.jpg", alt: "Letter page 2" },
-  { src: "assets/page 3.jpg", alt: "Letter page 3" },
-  { src: "assets/page 4.jpg", alt: "Letter page 4" },
-  { src: "assets/page 5.jpg", alt: "Letter page 5" },
+  "assets/page 1.jpg",
+  "assets/page 2.jpg",
+  "assets/page 3.jpg",
+  "assets/page 4.jpg",
+  "assets/page 5.jpg"
 ];
 
-let isOpen = false;
 let index = 0;
+let opened = false;
 
-function safePlay(audioEl) {
-  if (!audioEl) return;
-  try {
-    audioEl.currentTime = 0;
-    audioEl.play();
-  } catch (_) {}
-}
-
-function preloadImages() {
-  pages.forEach(p => {
-    const img = new Image();
-    img.src = p.src;
-  });
-}
-
-function fadeInMusic(audio, targetVolume = 0.4, durationMs = 2500) {
-  if (!audio) return;
-
-  try { audio.volume = 0; } catch (_) {}
-
-  audio.play().catch(() => {});
-
-  const steps = 40;
-  const stepTime = Math.max(10, Math.floor(durationMs / steps));
-  const volStep = targetVolume / steps;
-
-  let currentStep = 0;
-  const timer = setInterval(() => {
-    currentStep += 1;
-    try {
-      audio.volume = Math.min(targetVolume, audio.volume + volStep);
-    } catch (_) {}
-    if (currentStep >= steps) clearInterval(timer);
-  }, stepTime);
-}
-
-function renderPage() {
-  const p = pages[index];
-  pageImg.src = p.src;
-  pageImg.alt = p.alt;
-
-  pageIndicator.textContent = `${index + 1} / ${pages.length}`;
+function render(){
+  pageImg.src = pages[index];
+  pageIndicator.textContent = `${index+1} / ${pages.length}`;
   backBtn.disabled = index === 0;
-  nextBtn.disabled = index === pages.length - 1;
-
-  const atEnd = index === pages.length - 1;
-  restartBtn.hidden = !atEnd;
+  nextBtn.disabled = index === pages.length-1;
+  restartBtn.hidden = index !== pages.length-1;
 }
 
-function openEnvelope() {
-  if (isOpen) return;
-  isOpen = true;
-
-  envelope.classList.add("is-open");
-  letter.setAttribute("aria-hidden", "false");
-  safePlay(sfxOpen);
-
-  index = 0;
-  renderPage();
+function play(audio){
+  if(!audio) return;
+  audio.currentTime = 0;
+  audio.play().catch(()=>{});
 }
 
-function nextPage() {
-  if (!isOpen) return;
-  if (index >= pages.length - 1) return;
-  index += 1;
-  safePlay(sfxFlip);
-  renderPage();
-}
-
-function backPage() {
-  if (!isOpen) return;
-  if (index <= 0) return;
-  index -= 1;
-  safePlay(sfxFlip);
-  renderPage();
-}
-
-function restart() {
-  if (!isOpen) return;
-  index = 0;
-  safePlay(sfxClick);
-  renderPage();
-}
-
-/* Try to autoplay music on page load
-   Browsers may block it. If blocked, show a small "enable music" banner. */
-async function tryAutoplayMusic() {
-  if (!bgMusic) return;
-
-  try {
-    bgMusic.loop = true;
+async function tryAutoplay(){
+  try{
     bgMusic.volume = 0.4;
-
     await bgMusic.play();
-    if (audioGate) audioGate.hidden = true;
-  } catch (err) {
-    // Autoplay blocked
-    if (audioGate) audioGate.hidden = false;
-
-    const enable = () => {
-      if (audioGate) audioGate.hidden = true;
-      fadeInMusic(bgMusic, 0.4, 1800);
-      window.removeEventListener("pointerdown", enable);
-      window.removeEventListener("keydown", enableKey);
-    };
-
-    const enableKey = (e) => {
-      if (e.key === "Enter" || e.key === " " ) enable();
-    };
-
-    window.addEventListener("pointerdown", enable, { once: true });
-    window.addEventListener("keydown", enableKey);
+  }catch{
+    audioGate.hidden = false;
+    window.addEventListener("pointerdown", enableMusic, { once:true });
   }
 }
 
-envelopeBtn.addEventListener("click", () => {
-  if (!isOpen) openEnvelope();
-  else safePlay(sfxClick);
-});
+function enableMusic(){
+  audioGate.hidden = true;
+  bgMusic.play().catch(()=>{});
+}
 
-pageImg.addEventListener("click", () => {
-  if (!isOpen) return;
-  if (index < pages.length - 1) nextPage();
-  else safePlay(sfxClick);
-});
+envelopeBtn.onclick = () => {
+  if(opened) return;
+  opened = true;
+  envelope.classList.add("is-open");
+  play(sfxOpen);
+};
 
-nextBtn.addEventListener("click", nextPage);
-backBtn.addEventListener("click", backPage);
-restartBtn.addEventListener("click", restart);
-
-window.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" || e.key === " ") {
-    if (!isOpen) openEnvelope();
+pageImg.onclick = () => {
+  if(index < pages.length-1){
+    index++;
+    play(sfxFlip);
+    render();
   }
-  if (!isOpen) return;
+};
 
-  if (e.key === "ArrowRight") nextPage();
-  if (e.key === "ArrowLeft") backPage();
-});
+nextBtn.onclick = () => {
+  index++;
+  play(sfxFlip);
+  render();
+};
 
-// Init
-preloadImages();
-renderPage();
-tryAutoplayMusic();
+backBtn.onclick = () => {
+  index--;
+  play(sfxFlip);
+  render();
+};
+
+restartBtn.onclick = () => {
+  index = 0;
+  play(sfxClick);
+  render();
+};
+
+window.onkeydown = e => {
+  if(e.key==="Enter" && !opened) envelopeBtn.click();
+  if(e.key==="ArrowRight") nextBtn.click();
+  if(e.key==="ArrowLeft") backBtn.click();
+};
+
+render();
+tryAutoplay();
+

@@ -437,6 +437,26 @@ body{
   .seal{ width: 46px; height: 46px; font-size: 20px; }
 }
 
+/* Fix: avoid footer text overlapping the letter when it's open */
+body.letter-open .hint{
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  margin-top: 0;
+  pointer-events: none;
+}
+
+/* Make sure the letter always sits above other content */
+.letter{
+  z-index: 50;
+}
+
+.hint{
+  position: relative;
+  z-index: 1;
+}
+
+
 
 
 

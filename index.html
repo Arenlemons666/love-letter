@@ -11,13 +11,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
 
   <!-- Cache-busting so changes ALWAYS show -->
-  <link rel="stylesheet" href="styles.css?v=9" />
+  <link rel="stylesheet" href="styles.css?v=10" />
 </head>
 
 <body>
   <!-- Only shows if autoplay music is blocked -->
   <div id="audioGate" class="audio-gate" hidden>
     Click anywhere to enable music
+  </div>
+
+  <!-- Te amo overlay (only at the end) -->
+  <div id="loveOverlay" class="love-overlay" aria-hidden="true">
+    <div class="love-text">Te amo</div>
   </div>
 
   <main class="stage" aria-label="Interactive love letter">
@@ -37,10 +42,8 @@
             <div class="env-flap" aria-hidden="true"></div>
             <div class="env-front" aria-hidden="true"></div>
 
-            <!-- Put it ON the envelope -->
             <div class="env-tag" aria-hidden="true">Tap the envelope</div>
 
-            <!-- Cute seal -->
             <div class="seal" aria-hidden="true">♥</div>
 
             <div id="letter" class="letter" aria-hidden="true">
@@ -86,7 +89,6 @@
   <audio id="bgMusic" preload="auto" src="assets/music/only.mp3" loop></audio>
 
   <!-- Cache-busting for JS too -->
-  <script src="script.js?v=9"></script>
+  <script src="script.js?v=10"></script>
 </body>
 </html>
-

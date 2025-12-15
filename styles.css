@@ -302,16 +302,16 @@ body{
 }
 
 .page-frame{
-  flex:1;
-  min-height:0;
+  width: 100%;
+  height: auto;              /* 🔥 deja crecer libremente */
   border:2px solid rgba(0,0,0,.20);
   border-radius:14px;
   background:
     radial-gradient(600px 240px at 50% 10%, rgba(255,224,234,.70), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.55));
-  overflow:hidden;
-  display:grid;
-  place-items:center;
+  overflow: visible;         /* 🔥 NO cortar nada */
+  display:flex;
+  justify-content:center;
 }
 
 .page-img{
@@ -417,3 +417,4 @@ body{
   .nav-btn{ padding: 9px 12px; font-size: 14px; }
   .seal{ width: 46px; height: 46px; font-size: 20px; }
 }
+

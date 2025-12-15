@@ -71,6 +71,7 @@ function openEnvelope(){
   if(opened || finished) return;
   opened = true;
   envelope.classList.add("is-open");
+  document.body.classList.add("letter-open"); // ✅ NEW
   play(sfxOpen);
 }
 
@@ -138,3 +139,4 @@ window.onkeydown = (e) => {
 // Init
 render();
 tryAutoplay();
+

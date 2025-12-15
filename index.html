@@ -5,22 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Luddi</title>
 
-  <!-- Handwritten doodle font -->
+  <!-- Doodle handwritten font (reliable on GitHub Pages) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css" />
+  <!-- Cache-busting so changes ALWAYS show -->
+  <link rel="stylesheet" href="styles.css?v=9" />
 </head>
 
 <body>
-  <!-- Appears only if autoplay is blocked -->
+  <!-- Only shows if autoplay music is blocked -->
   <div id="audioGate" class="audio-gate" hidden>
     Click anywhere to enable music
   </div>
 
   <main class="stage" aria-label="Interactive love letter">
     <section class="card">
+
       <header class="topbar">
         <h1 class="title">Luddi</h1>
       </header>
@@ -30,13 +32,12 @@
 
         <button id="envelopeBtn" class="envelope-btn" aria-label="Open envelope">
           <div id="envelope" class="envelope" role="img" aria-label="Envelope">
-
             <div class="env-back"></div>
 
             <div class="env-flap" aria-hidden="true"></div>
             <div class="env-front" aria-hidden="true"></div>
 
-            <!-- Text on the envelope (not outside) -->
+            <!-- Put it ON the envelope -->
             <div class="env-tag" aria-hidden="true">Tap the envelope</div>
 
             <!-- Cute seal -->
@@ -72,6 +73,7 @@
       <footer class="hint">
         Press Enter to open · Use ← → to turn pages
       </footer>
+
     </section>
   </main>
 
@@ -83,7 +85,8 @@
   <!-- Background music -->
   <audio id="bgMusic" preload="auto" src="assets/music/only.mp3" loop></audio>
 
-  <script src="script.js"></script>
+  <!-- Cache-busting for JS too -->
+  <script src="script.js?v=9"></script>
 </body>
 </html>
 
